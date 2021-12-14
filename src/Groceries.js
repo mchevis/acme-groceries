@@ -1,9 +1,13 @@
 import React from "react";
-import { toggleSwitch, create } from "./store";
+import {
+  toggleSwitch,
+  create,
+  deleteGrocery,
+} from "./reducers/groceriesReducer";
 
 import { connect } from "react-redux";
 
-const _Groceries = ({ groceries, view, toggle, create }) => {
+const _Groceries = ({ groceries, view, toggle, create, deleteGrocery }) => {
   return (
     <div>
       <button onClick={create}>Create</button>
@@ -17,13 +21,15 @@ const _Groceries = ({ groceries, view, toggle, create }) => {
           )
           .map((grocery) => {
             return (
-              <li
-                onClick={() => toggle(grocery)}
-                key={grocery.id}
-                className={grocery.purchased ? "purchased" : ""}
-              >
-                {grocery.name}
-              </li>
+              <div key={grocery.id}>
+                <li
+                  onClick={() => toggle(grocery)}
+                  className={grocery.purchased ? "purchased" : ""}
+                >
+                  {grocery.name}
+                </li>
+                <button onClick={() => deleteGrocery(grocery)}> x </button>
+              </div>
             );
           })}
       </ul>
@@ -35,6 +41,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggle: (grocery) => dispatch(toggleSwitch(grocery)),
     create: () => dispatch(create()),
+    deleteGrocery: (grocery) => dispatch(deleteGrocery(grocery)),
   };
 };
 
