@@ -1,25 +1,12 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from "redux";
+import groceriesReducer from "./reducers/groceriesReducer";
+import viewReducer from "./reducers/viewReducer";
 
-const initialState = {
-  groceries: [],
-  view: ''
-};
-const store = createStore((state = initialState, action)=> {
-  if(action.type === 'LOAD'){
-    state = {...state, groceries: action.groceries };
-  }
-  if(action.type === 'UPDATE'){
-    state = {...state, groceries: state.groceries.map(grocery => grocery.id === action.grocery.id ? action.grocery : grocery )};
-  }
-  if(action.type === 'CREATE'){
-    state = {...state, groceries: [...state.groceries, action.grocery ]}
-  }
-  if(action.type === 'SET_VIEW'){
-    state = {...state, view: action.view};
-  }
-  return state;
+const rootReducer = combineReducers({
+  groceries: groceriesReducer,
+  view: viewReducer,
 });
 
+const store = createStore(rootReducer);
+
 export default store;
-
-
